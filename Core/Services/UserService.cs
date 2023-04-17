@@ -33,6 +33,7 @@ namespace Core.Services
             {
                 FirstName = registerData.FirstName,
                 Email = registerData.Email,
+                Role = registerData.Role,
                 PasswordHash = hashedPassword,
             };
 
