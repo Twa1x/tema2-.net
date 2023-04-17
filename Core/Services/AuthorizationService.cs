@@ -22,36 +22,36 @@ namespace Core.Services
             _securityKey = config["JWT:SecurityKey"];
         }
 
-        //public string GetToken(User user, Role role)
-        //{
-        //    var jwtTokenHandler = new JwtSecurityTokenHandler();
+        public string GetToken(User user, string role)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
 
-        //    /* Generate keys online
-        //     * 128-bit  
-        //     * https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
-        //    */
+            /* Generate keys online
+             * 128-bit  
+             * https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
+            */
 
-        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
-        //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        //    var roleClaim = new Claim("role", role);
-        //    var idClaim = new Claim("userId", user.Id.ToString());
-        //    var infoClaim = new Claim("username", user.Email);
+            var roleClaim = new Claim("role", role);
+            var idClaim = new Claim("userId", user.Id.ToString());
+            var infoClaim = new Claim("username", user.Email);
 
-        //    var tokenDescriptior = new SecurityTokenDescriptor
-        //    {
-        //        Issuer = "Backend",
-        //        Audience = "Frontend",
-        //        Subject = new ClaimsIdentity(new[] { roleClaim, idClaim, infoClaim }),
-        //        Expires = DateTime.Now.AddYears(1),
-        //        SigningCredentials = credentials
-        //    };
+            var tokenDescriptior = new SecurityTokenDescriptor
+            {
+                Issuer = "Backend",
+                Audience = "Frontend",
+                Subject = new ClaimsIdentity(new[] { roleClaim, idClaim, infoClaim }),
+                Expires = DateTime.Now.AddYears(1),
+                SigningCredentials = credentials
+            };
 
-        //    var token = jwtTokenHandler.CreateToken(tokenDescriptior);
-        //    var tokenString = jwtTokenHandler.WriteToken(token);
+            var token = jwtTokenHandler.CreateToken(tokenDescriptior);
+            var tokenString = jwtTokenHandler.WriteToken(token);
 
-        //    return tokenString;
-        //}
+            return tokenString;
+        }
 
         public bool ValidateToken(string tokenString)
         {
