@@ -47,15 +47,15 @@ namespace Core.Services
 
         public string Validate(LoginDto payload)
         {
-            var student = unitOfWork.Users.GetByEmail(payload.Email);
+            var user = unitOfWork.Users.GetByEmail(payload.Email);
 
-            var passwordFine = authService.VerifyHashedPassword(student.PasswordHash, payload.Password);
+            var passwordFine = authService.VerifyHashedPassword(user.PasswordHash, payload.Password);
 
             if (passwordFine)
             {
-                var role = GetRole(student);
+                var role = GetRole(user);
 
-                return authService.GetToken(student, role);
+                return authService.GetToken(user, role);
             }
             else
             {
