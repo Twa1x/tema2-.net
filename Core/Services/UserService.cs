@@ -34,6 +34,7 @@ namespace Core.Services
                 FirstName = registerData.FirstName,
                 Email = registerData.Email,
                 Role = registerData.Role,
+                IdAcc = registerData.IdStudOrTeach,
                 PasswordHash = hashedPassword,
             };
 

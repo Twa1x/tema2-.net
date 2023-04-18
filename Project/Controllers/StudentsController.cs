@@ -2,7 +2,9 @@
 using Core.Services;
 using DataLayer.Dtos;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Project.Controllers
 {
@@ -12,10 +14,14 @@ namespace Project.Controllers
     {
         private StudentService studentService { get; set; }
 
+        private UserService userService { get; set; }
 
-        public StudentsController(StudentService studentService)
+
+
+        public StudentsController(StudentService studentService, UserService userService)
         {
             this.studentService = studentService;
+            this.userService = userService;
         }
 
         [HttpPost("/add")]
@@ -33,6 +39,7 @@ namespace Project.Controllers
 
 
         [HttpGet("/get-all")]
+        [Authorize(Roles = "Teacher")]
         public ActionResult<List<Student>> GetAll()
         {
             var results = studentService.GetAll();
@@ -40,10 +47,15 @@ namespace Project.Controllers
             return Ok(results);
         }
 
+
+
         [HttpGet("/get/{studentId}")]
+        [Authorize(Roles = "Student")]
         public ActionResult<Student> GetById(int studentId)
         {
-            var result = studentService.GetById(studentId);
+
+            
+           var result = studentService.GetById(studentId);
 
             if(result == null)
             {
@@ -87,6 +99,19 @@ namespace Project.Controllers
             var results = studentService.GetGroupedStudents();
 
             return Ok(results);
+        }
+
+        [HttpGet("students-only")]
+        [Authorize(Roles = "Student")]
+        public ActionResult<string> HelloStudents()
+        {
+            return Ok("Hello students!");
+        }
+        [HttpGet("teacher-only")]
+        [Authorize(Roles = "Teacher")]
+        public ActionResult<string> HelloTeacher()
+        {
+            return Ok("Hello teacher!");
         }
     }
 }

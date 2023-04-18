@@ -14,6 +14,7 @@ namespace DataLayer.Entities
         public string Email { get; set; }
         public string Role { get; set; }
         public string PasswordHash { get; set; }
+        public int IdAcc { get; set; }
         
     }
 }
